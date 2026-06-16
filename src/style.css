@@ -2084,3 +2084,198 @@ body {
 .note-content-editor a:hover {
   color: var(--accent-primary-hover);
 }
+
+/* ============ DAILY BRIEFING & REPORT MODALS ============ */
+.briefing-modal-content {
+  background: var(--bg-card);
+  width: 90%;
+  max-width: 450px;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-primary);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: modalEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.briefing-modal-content.report-theme {
+  background: linear-gradient(180deg, var(--bg-card) 0%, rgba(20, 20, 35, 1) 100%);
+  border-top: 2px solid #a855f7;
+}
+
+[data-theme="light"] .briefing-modal-content.report-theme {
+  background: linear-gradient(180deg, var(--bg-card) 0%, #f3e8ff 100%);
+  border-top: 2px solid #9333ea;
+}
+
+.briefing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.briefing-day {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ff5e3a;
+  background: rgba(255, 94, 58, 0.1);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+}
+
+.report-theme .briefing-day {
+  color: #a855f7;
+  background: rgba(168, 85, 247, 0.1);
+}
+
+.briefing-greeting {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.briefing-section h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.briefing-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.briefing-task-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-body);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.briefing-task-item .checkbox-mock {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.completed-style .briefing-task-item {
+  opacity: 0.8;
+}
+
+.completed-style .briefing-task-item .checkbox-mock {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.completed-style .briefing-task-item .checkbox-mock::after {
+  content: "✓";
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.target-time-box {
+  background: var(--accent-primary-subtle);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  border: 1px dashed var(--accent-primary);
+}
+
+.target-time-box h3 {
+  margin: 0;
+  color: var(--accent-primary);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.briefing-quote {
+  padding-left: 16px;
+  border-left: 3px solid var(--accent-primary);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.briefing-quote strong {
+  display: block;
+  font-style: normal;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.briefing-quote p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.briefing-start-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.report-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.stat-box {
+  background: var(--bg-body);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-md);
+  padding: 16px 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-box.highlight {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.stat-box.highlight .stat-value {
+  color: #a855f7;
+}

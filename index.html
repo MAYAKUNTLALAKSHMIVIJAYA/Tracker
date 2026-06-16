@@ -120,6 +120,10 @@
           <span>Search</span>
           <kbd>⌘K</kbd>
         </button>
+        <button onclick="window.showDailyReport()" class="search-trigger" style="justify-content: flex-start; gap: 8px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Daily Report</span>
+        </button>
         <button id="theme-toggle-btn" class="theme-toggle-btn">
           <svg id="theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg id="theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -168,6 +172,74 @@
 
   <!-- Toast Notification -->
   <div id="toast-container" class="toast-container"></div>
+
+  <!-- Daily Briefing Modal -->
+  <div id="daily-briefing-modal" class="modal-overlay hidden">
+    <div class="briefing-modal-content">
+      <div class="briefing-header">
+        <div class="briefing-day">🔥 DAY <span id="briefing-day-number">1</span> OF 60</div>
+        <button class="modal-close" id="close-briefing-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <h2 class="briefing-greeting">Good Morning Lakshmi Vijaya</h2>
+      
+      <div class="briefing-section">
+        <h3>Today's Goals</h3>
+        <div id="briefing-tasks-list" class="briefing-tasks">
+          <!-- tasks injected here -->
+        </div>
+      </div>
+
+      <div class="briefing-section target-time-box">
+        <h3>Target Study Time: <span id="briefing-target-time">0</span> Hours</h3>
+      </div>
+
+      <div class="briefing-quote">
+        <strong>Remember:</strong>
+        <p>Consistency beats intensity.</p>
+      </div>
+      
+      <button class="btn btn-primary briefing-start-btn" id="start-day-btn">Let's Crush It 🚀</button>
+    </div>
+  </div>
+
+  <!-- Daily Report Modal -->
+  <div id="daily-report-modal" class="modal-overlay hidden">
+    <div class="briefing-modal-content report-theme">
+      <div class="briefing-header">
+        <div class="briefing-day">🌙 DAY <span id="report-day-number">1</span> COMPLETED</div>
+        <button class="modal-close" id="close-report-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <h2 class="briefing-greeting">Great Job Today!</h2>
+      
+      <div class="report-stats">
+        <div class="stat-box">
+          <span class="stat-label">Tasks Done</span>
+          <span class="stat-value" id="report-tasks-done">0/0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Time Logged</span>
+          <span class="stat-value" id="report-time-logged">0h</span>
+        </div>
+        <div class="stat-box highlight">
+          <span class="stat-label">XP Earned</span>
+          <span class="stat-value" id="report-xp-earned">+0</span>
+        </div>
+      </div>
+
+      <div class="briefing-section">
+        <h3>Tasks Completed</h3>
+        <div id="report-completed-tasks" class="briefing-tasks completed-style">
+          <!-- tasks injected here -->
+        </div>
+      </div>
+      
+      <button class="btn btn-primary briefing-start-btn" id="end-day-btn">Rest & Recover 💤</button>
+    </div>
+  </div>
 
   <script type="module" src="/src/main.js"></script>
 </body>

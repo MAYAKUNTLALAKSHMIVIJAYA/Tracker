@@ -14,6 +14,8 @@ const defaultState = {
   currentStreak: 0,
   longestStreak: 0,
   lastActiveDate: null,
+  lastBriefingDate: null,
+  lastReportDate: null,
   totalHoursStudied: 0,
   hoursToday: 0,
   todayDate: null,
@@ -2097,6 +2099,101 @@ function initSearch() {
   });
 }
 
+// ============ DAILY BRIEFING & REPORT ============
+function getDayNumber() {
+  const start = new Date(state.startDate);
+  const today = new Date();
+  const diff = today.getTime() - start.getTime();
+  const days = Math.floor(diff / (1000 * 3600 * 24)) + 1;
+  return Math.max(1, Math.min(days, state.totalDays));
+}
+
+function showDailyBriefing() {
+  document.getElementById('briefing-day-number').textContent = getDayNumber();
+  
+  const todayStr = new Date().toISOString().split('T')[0];
+  const todaysTasks = state.tasks.filter(t => t.date === todayStr);
+  
+  let targetTime = 0;
+  todaysTasks.forEach(t => targetTime += t.estimatedTime || 0);
+  if (targetTime === 0) targetTime = 5;
+  document.getElementById('briefing-target-time').textContent = targetTime;
+  
+  const tasksList = document.getElementById('briefing-tasks-list');
+  const todoTasks = todaysTasks.filter(t => t.status === 'todo').slice(0, 5);
+  
+  if (todoTasks.length > 0) {
+    tasksList.innerHTML = todoTasks.map(t => `
+      <div class="briefing-task-item">
+        <div class="checkbox-mock"></div>
+        <span>${t.title}</span>
+      </div>
+    `).join('');
+  } else {
+    tasksList.innerHTML = `<div class="text-muted" style="font-size: 13px;">No goals planned for today yet. Go to Daily Planner to set them!</div>`;
+  }
+  
+  const modal = document.getElementById('daily-briefing-modal');
+  modal.classList.remove('hidden');
+  
+  document.getElementById('close-briefing-btn').onclick = () => modal.classList.add('hidden');
+  document.getElementById('start-day-btn').onclick = () => {
+    modal.classList.add('hidden');
+    state.lastBriefingDate = new Date().toDateString();
+    saveState();
+  };
+}
+
+window.showDailyReport = function() {
+  document.getElementById('report-day-number').textContent = getDayNumber();
+  
+  const todayStr = new Date().toISOString().split('T')[0];
+  const todaysTasks = state.tasks.filter(t => t.date === todayStr);
+  const doneTasks = todaysTasks.filter(t => t.status === 'done');
+  
+  document.getElementById('report-tasks-done').textContent = `${doneTasks.length}/${todaysTasks.length}`;
+  document.getElementById('report-time-logged').textContent = `${state.hoursToday}h`;
+  
+  const xpEarned = (state.hoursToday * 20) + (doneTasks.length * 5);
+  document.getElementById('report-xp-earned').textContent = `+${xpEarned}`;
+  
+  const completedList = document.getElementById('report-completed-tasks');
+  if (doneTasks.length > 0) {
+    completedList.innerHTML = doneTasks.map(t => `
+      <div class="briefing-task-item">
+        <div class="checkbox-mock"></div>
+        <span>${t.title}</span>
+      </div>
+    `).join('');
+  } else {
+    completedList.innerHTML = `<div class="text-muted" style="font-size: 13px;">No tasks completed today. Tomorrow is a new day!</div>`;
+  }
+  
+  const modal = document.getElementById('daily-report-modal');
+  modal.classList.remove('hidden');
+  
+  document.getElementById('close-report-btn').onclick = () => modal.classList.add('hidden');
+  document.getElementById('end-day-btn').onclick = () => {
+    modal.classList.add('hidden');
+    state.lastReportDate = new Date().toDateString();
+    saveState();
+  };
+}
+
+function checkDailyModals() {
+  const todayStr = new Date().toDateString();
+  const now = new Date();
+  const hour = now.getHours();
+  
+  if (state.lastBriefingDate !== todayStr && hour < 16) {
+    setTimeout(showDailyBriefing, 500);
+  }
+  
+  if (state.lastReportDate !== todayStr && hour >= 21) {
+    setTimeout(showDailyReport, 500);
+  }
+}
+
 // ============ THEME ============
 function updateThemeIcons() {
   const isDark = state.theme === 'dark';
@@ -2154,6 +2251,7 @@ function init() {
   updateStreak();
   generateMissions();
   renderPage('dashboard');
+  checkDailyModals();
   
   // Remove Vite default content
   const viteSvg = document.querySelector('link[rel="icon"]');
